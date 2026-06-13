@@ -13,16 +13,18 @@ public class TopicService {
     //private final List<Topic> topics = new ArrayList<>();
     private final MessageService messageService;
     private final TopicRepository topicRepository;
+    private final UserService userService;
 
-    public TopicService( MessageService messageService, TopicRepository topicRepository) {
+    public TopicService( MessageService messageService, TopicRepository topicRepository, UserService userService) {
         this.messageService = messageService;
         this.topicRepository = topicRepository;
+        this.userService = userService;
 
         if (topicRepository.count() == 0) {
-            topicRepository.save(new Topic("Startup Fear", 248, 0));
-            topicRepository.save(new Topic("Career Stress", 512, 0));
-            topicRepository.save(new Topic("Relationships", 890, 0));
-            topicRepository.save(new Topic("Loneliness", 356, 0));
+            topicRepository.save(new Topic("Startup Fear","PulseSystem", 248, 0));
+            topicRepository.save(new Topic("Career Stress","PulseSystem", 512, 0));
+            topicRepository.save(new Topic("Relationships","PulseSystem", 890, 0));
+            topicRepository.save(new Topic("Loneliness","PulseSystem", 356, 0));
         }
     }
 
@@ -36,7 +38,7 @@ public class TopicService {
         return topics;
     }
 
-    public Topic createTopic(String topicName) {
+    public Topic createTopic(String topicName,String username) {
         if (topicExists(topicName)) {
             return topicRepository
                     .findAll()
@@ -45,8 +47,10 @@ public class TopicService {
                     .findFirst()
                     .orElseThrow();
         }
-        Topic topic = new Topic(topicName, 0, 0);
-        return topicRepository.save(topic);
+        Topic topic = new Topic(topicName,username, 0, 0);
+        Topic savedTopic = topicRepository.save(topic);
+        userService.addReputation(username, 5);
+        return savedTopic;
     }
 
     public boolean topicExists(String topicName) {

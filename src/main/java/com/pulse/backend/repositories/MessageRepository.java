@@ -7,13 +7,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public interface MessageRepository
-        extends JpaRepository<Message, Long> {
+public interface MessageRepository extends JpaRepository<Message, Long> {
 
-    List<Message> findByTopicNameOrderByIdAsc(
-            String topicName
-    );
+    List<Message> findByTopicNameOrderByIdAsc(String topicName);
+
     List<Message> findByTopicNameAndCreatedAtAfter(String topicName, LocalDateTime time);
+
+    long countByUsername(String username);
+
+    List<Message> findByUsername(String username);
 
     Optional<Message> findById(Long id);
 }

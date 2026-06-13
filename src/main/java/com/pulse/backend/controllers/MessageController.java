@@ -74,7 +74,7 @@ public class MessageController {
 
     @PostMapping("/messages/{messageId}/react")
     public void reactToMessage(@PathVariable Long messageId, @RequestBody ReactionRequest request) {
-        messageService.reactToMessage(messageId, request.getType());
+        messageService.reactToMessage(messageId, request.getUsername(), request.getType());
     }
 
     @PostMapping("/{topicName}/typing")

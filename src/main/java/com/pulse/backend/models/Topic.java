@@ -6,21 +6,29 @@ import jakarta.persistence.*;
 public class Topic {
 
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private int activeUsers;
     private int heatScore;
+    private String createdBy;
 
     public Topic() {
     }
 
-    public Topic(String name, int activeUsers, int heatScore) {
+    public Topic(String name, String createdBy, int activeUsers, int heatScore) {
         this.name = name;
+        this.createdBy = createdBy;
         this.activeUsers = activeUsers;
         this.heatScore = heatScore;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     public String getName() {

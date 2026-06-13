@@ -30,7 +30,8 @@ public class TopicController {
             CreateTopicRequest request) {
 
         return topicService.createTopic(
-                request.getName()
+                request.getName(),
+                request.getUsername()
         );
     }
 }
