@@ -3,6 +3,7 @@ package com.pulse.backend.services;
 import com.pulse.backend.dto.CreateMessageRequest;
 import com.pulse.backend.dto.TopicStatsResponse;
 import com.pulse.backend.dto.TypingEvent;
+import com.pulse.backend.enums.RewardType;
 import com.pulse.backend.models.Message;
 import com.pulse.backend.models.Reaction;
 import com.pulse.backend.repositories.MessageRepository;
@@ -49,7 +50,8 @@ public class MessageService {
 
         Message message = new Message(topicName, request.getUsername(), request.getText());
         Message savedMessage = messageRepository.save(message);
-        userService.addReputation(request.getUsername(), 1);
+//        userService.addReputation(request.getUsername(), 1);
+        userService.reward(request.getUsername(), 1, RewardType.MESSAGE_CREATED, "Posted a message");
 
         messagingTemplate.convertAndSend("/topic/" + topicName, savedMessage);
         System.out.println("PUBLISHED TO: /topic/" + topicName);
@@ -157,19 +159,23 @@ public class MessageService {
             String messageOwner = message.getUsername();
             switch (reactionType) {
                 case "HEART":
-                    userService.addReputation(messageOwner, 2);
+//                    userService.addReputation(messageOwner, 2);
+                    userService.reward(messageOwner, 2, RewardType.HEART_RECEIVED, "Received ❤️ on a message");
                     break;
 
                 case "FIRE":
-                    userService.addReputation(messageOwner, 3);
+//                    userService.addReputation(messageOwner, 3);
+                    userService.reward(messageOwner, 3, RewardType.FIRE_RECEIVED, "Received 🔥 on a message");
                     break;
 
                 case "SAD":
-                    userService.addReputation(messageOwner, 1);
+//                    userService.addReputation(messageOwner, 1);
+                    userService.reward(messageOwner, 1, RewardType.SAD_RECEIVED, "Received 😢 on a message");
                     break;
 
                 case "SUPPORT":
-                    userService.addReputation(messageOwner, 4);
+//                    userService.addReputation(messageOwner, 4);
+                    userService.reward(messageOwner, 4, RewardType.SUPPORT_RECEIVED, "Received 🤝 on a message");
                     break;
             }
         }

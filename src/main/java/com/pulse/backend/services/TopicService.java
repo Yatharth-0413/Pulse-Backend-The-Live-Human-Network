@@ -1,5 +1,6 @@
 package com.pulse.backend.services;
 
+import com.pulse.backend.enums.RewardType;
 import com.pulse.backend.models.Topic;
 import com.pulse.backend.repositories.TopicRepository;
 import org.springframework.stereotype.Service;
@@ -49,7 +50,8 @@ public class TopicService {
         }
         Topic topic = new Topic(topicName,username, 0, 0);
         Topic savedTopic = topicRepository.save(topic);
-        userService.addReputation(username, 5);
+//        userService.addReputation(username, 5);
+        userService.reward(username, 5, RewardType.TOPIC_CREATED, "Created topic \"" + topicName + "\"");
         return savedTopic;
     }
 

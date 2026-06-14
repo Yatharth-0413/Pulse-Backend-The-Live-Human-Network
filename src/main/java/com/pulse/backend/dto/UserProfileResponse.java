@@ -1,6 +1,7 @@
 package com.pulse.backend.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class UserProfileResponse {
 
@@ -14,15 +15,9 @@ public class UserProfileResponse {
     private int reputation;
     private String badge;
 
-    public UserProfileResponse(
-            String username,
-            LocalDateTime memberSince,
-            long messageCount,
-            int topicCount,
-            long reactionCount,
-            int reputation,
-            String badge) {
+    private List<ActivityResponse> activities;
 
+    public UserProfileResponse(String username, LocalDateTime memberSince, long messageCount, int topicCount, long reactionCount, int reputation, String badge, List<ActivityResponse> activities) {
         this.username = username;
         this.memberSince = memberSince;
         this.messageCount = messageCount;
@@ -30,6 +25,7 @@ public class UserProfileResponse {
         this.reactionCount = reactionCount;
         this.reputation = reputation;
         this.badge = badge;
+        this.activities = activities;
     }
 
     public String getUsername() {
@@ -58,5 +54,9 @@ public class UserProfileResponse {
 
     public int getTopicCount() {
         return topicCount;
+    }
+
+    public List<ActivityResponse> getActivities() {
+        return activities;
     }
 }
